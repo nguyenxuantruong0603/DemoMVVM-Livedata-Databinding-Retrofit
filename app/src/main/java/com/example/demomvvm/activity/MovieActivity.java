@@ -25,9 +25,14 @@ public class MovieActivity extends AppCompatActivity implements MovieAdapter.Ite
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        // đăng ký Databinding cho activity_movie
         binding = DataBindingUtil.setContentView(this, R.layout.activity_movie);
 
+        //đăng ký MovieViewModel
         movieViewModel = new ViewModelProvider(this).get(MovieViewModel.class);
+
+        // gọi getListMutableLiveData từ bên MovieViewModel để lắng nghe khi có dữ liệu thay đổi
         movieViewModel.getListMutableLiveData().observe(this, movies -> {
             if (movies != null) {
                 movieAdapter = new MovieAdapter(movies, this, this);

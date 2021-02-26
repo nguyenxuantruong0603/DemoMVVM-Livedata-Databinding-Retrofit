@@ -20,29 +20,32 @@ public class MovieViewModel extends ViewModel {
 
     private MutableLiveData<List<Movie>> listMutableLiveData;
 
+    // hàm khởi tạo
     public MovieViewModel() {
         listMutableLiveData = new MutableLiveData<>();
 
     }
 
+    // khai báo getter của MutableLiveData<List<Movie>> để bên Acitivity gọi và lấy dữ liệu
     public MutableLiveData<List<Movie>> getListMutableLiveData() {
         return listMutableLiveData;
     }
 
-    public void makeApiCall(){
+    //lấy dữ liệu từ API và đổ vào list MutableLiveData
+    public void makeApiCall() {
         ApiService apiService = RetrofitCallMovie.getInstance().create(ApiService.class);
         Call<List<Movie>> listCall = apiService.getMovieList();
         listCall.enqueue(new Callback<List<Movie>>() {
             @Override
             public void onResponse(Call<List<Movie>> call, Response<List<Movie>> response) {
                 listMutableLiveData.postValue(response.body());
-                Log.e("AAAAAA",response.body().size()+"");
+                Log.e("AAAAAA", response.body().size() + "");
             }
 
             @Override
             public void onFailure(Call<List<Movie>> call, Throwable t) {
                 listMutableLiveData.postValue(null);
-                Log.e("AAAAAA",t.getMessage());
+                Log.e("AAAAAA", t.getMessage());
 
             }
         });
