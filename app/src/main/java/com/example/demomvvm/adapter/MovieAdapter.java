@@ -23,10 +23,11 @@ import java.util.List;
 public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.Holder> {
     private List<Movie> movieList;
     private Context context;
-
-    public MovieAdapter(List<Movie> movieList, Context context) {
+    private ItemClickListener itemClickListener;
+    public MovieAdapter(List<Movie> movieList, Context context, ItemClickListener itemClickListener) {
         this.movieList = movieList;
         this.context = context;
+        this.itemClickListener=itemClickListener;
     }
 
     @NonNull
@@ -42,13 +43,12 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.Holder> {
         holder.tvId.setText(movie.getId() + "");
         holder.tvTitle.setText(movie.getTitle());
         Picasso.with(context)
-                .load(movie.getThumbnailUrl())
+                .load(this.movieList.get(position).getThumbnailUrl())
                 .error(R.drawable.user)
                 .into(holder.imgPoster);
 
         holder.itemView.setOnClickListener(v -> {
-            Toast.makeText(context, movie.getUrl() + "", Toast.LENGTH_SHORT).show();
-            Log.e("URL", movie.getUrl() + "\n" + movie.getThumbnailUrl());
+           itemClickListener.clickItem(movieList.get(position));
         });
     }
 
@@ -72,8 +72,10 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.Holder> {
             imgPoster = itemView.findViewById(R.id.imgPoster);
             tvId = itemView.findViewById(R.id.tvId);
             tvTitle = itemView.findViewById(R.id.tvTitle);
-
-
         }
+    }
+
+    public interface ItemClickListener{
+         void clickItem(Movie movie);
     }
 }

@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
+import android.widget.Toast;
 
 import com.example.demomvvm.R;
 import com.example.demomvvm.adapter.MovieAdapter;
@@ -16,7 +17,7 @@ import com.example.demomvvm.viewmodel.MovieViewModel;
 
 import java.util.List;
 
-public class MovieActivity extends AppCompatActivity {
+public class MovieActivity extends AppCompatActivity implements MovieAdapter.ItemClickListener {
     private ActivityMovieBinding binding;
     private MovieAdapter movieAdapter;
     private MovieViewModel movieViewModel;
@@ -29,7 +30,7 @@ public class MovieActivity extends AppCompatActivity {
         movieViewModel = new ViewModelProvider(this).get(MovieViewModel.class);
         movieViewModel.getListMutableLiveData().observe(this, movies -> {
             if (movies != null) {
-                movieAdapter = new MovieAdapter(movies, this);
+                movieAdapter = new MovieAdapter(movies, this, this);
                 binding.rcMovie.setAdapter(movieAdapter);
                 binding.tvCheck.setText("có dữ liệu");
             } else {
@@ -39,5 +40,10 @@ public class MovieActivity extends AppCompatActivity {
         });
 
         movieViewModel.makeApiCall();
+    }
+
+    @Override
+    public void clickItem(Movie movie) {
+        Toast.makeText(this, "Bạn đã cờ lích vào thằng " + movie.getTitle(), Toast.LENGTH_SHORT).show();
     }
 }
