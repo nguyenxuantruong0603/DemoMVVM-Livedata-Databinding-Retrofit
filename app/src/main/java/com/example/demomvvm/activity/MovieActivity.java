@@ -29,7 +29,7 @@ public class MovieActivity extends AppCompatActivity implements MovieAdapter.Ite
         // đăng ký Databinding cho activity_movie
         binding = DataBindingUtil.setContentView(this, R.layout.activity_movie);
 
-        //đăng ký MovieViewModel
+        // đăng ký MovieViewModel
         movieViewModel = new ViewModelProvider(this).get(MovieViewModel.class);
 
         // gọi getListMutableLiveData từ bên MovieViewModel để lắng nghe khi có dữ liệu thay đổi

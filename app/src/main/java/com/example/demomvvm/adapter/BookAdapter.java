@@ -19,6 +19,7 @@ public class BookAdapter extends RecyclerView.Adapter<BookAdapter.Holder> {
 
     private List<Book> bookList;
     private Context context;
+    private boolean isChecked = false;
 
     public BookAdapter(List<Book> bookList, Context context) {
         this.bookList = bookList;
@@ -41,7 +42,23 @@ public class BookAdapter extends RecyclerView.Adapter<BookAdapter.Holder> {
         holder.tvName.setText(book.getName());
         holder.tvDescription.setText(book.getDescription());
         holder.tvAuthor.setText(book.getAuthor());
-        holder.tvPrice.setText(book.getPrice()+"");
+        holder.tvPrice.setText(book.getPrice() + "");
+        holder.itemView.setOnClickListener(v -> {
+
+            if (!isChecked) {
+                holder.tvPrice.setVisibility(View.VISIBLE);
+                holder.tvDescription.setVisibility(View.VISIBLE);
+                holder.tvAuthor.setVisibility(View.VISIBLE);
+                isChecked = true;
+            } else {
+                holder.tvPrice.setVisibility(View.GONE);
+                holder.tvDescription.setVisibility(View.GONE);
+                holder.tvAuthor.setVisibility(View.GONE);
+                isChecked = false;
+            }
+
+
+        });
     }
 
     @Override

@@ -7,15 +7,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.RequestOptions;
 import com.example.demomvvm.R;
 import com.example.demomvvm.datamodel.Movie;
+import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -24,10 +22,11 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.Holder> {
     private List<Movie> movieList;
     private Context context;
     private ItemClickListener itemClickListener;
+
     public MovieAdapter(List<Movie> movieList, Context context, ItemClickListener itemClickListener) {
         this.movieList = movieList;
         this.context = context;
-        this.itemClickListener=itemClickListener;
+        this.itemClickListener = itemClickListener;
     }
 
     @NonNull
@@ -43,12 +42,22 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.Holder> {
         holder.tvId.setText(movie.getId() + "");
         holder.tvTitle.setText(movie.getTitle());
         Picasso.with(context)
-                .load(this.movieList.get(position).getThumbnailUrl())
+                .load(movie.getThumbnailUrl())
                 .error(R.drawable.user)
-                .into(holder.imgPoster);
+                .into(holder.imgPoster, new Callback() {
+                    @Override
+                    public void onSuccess() {
+                        Log.e("onSuccess", movie.getThumbnailUrl());
+                    }
+
+                    @Override
+                    public void onError() {
+                        Log.e("onError", movie.getThumbnailUrl());
+                    }
+                });
 
         holder.itemView.setOnClickListener(v -> {
-           itemClickListener.clickItem(movieList.get(position));
+            itemClickListener.clickItem(movieList.get(position));
         });
     }
 
@@ -75,7 +84,7 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.Holder> {
         }
     }
 
-    public interface ItemClickListener{
-         void clickItem(Movie movie);
+    public interface ItemClickListener {
+        void clickItem(Movie movie);
     }
 }

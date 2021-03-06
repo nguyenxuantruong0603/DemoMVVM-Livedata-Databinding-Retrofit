@@ -28,7 +28,7 @@ public class BookViewModel extends ViewModel {
         return bookListLiveData;
     }
 
-    public void  addBook(Book book){
+    public void addBook(Book book) {
         bookList.add(book);
         bookListLiveData.setValue(bookList);
     }

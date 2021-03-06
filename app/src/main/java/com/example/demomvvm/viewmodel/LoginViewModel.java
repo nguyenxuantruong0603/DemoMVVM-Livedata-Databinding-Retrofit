@@ -54,7 +54,7 @@ public class LoginViewModel extends BaseObservable {
             Intent intent = new Intent(context, HomeActivity.class);
             context.startActivity(intent);
         } else {
-           message.set("Username or password valid");
+            message.set("Username or password valid");
             Toast.makeText(context, "Login Fail", Toast.LENGTH_SHORT).show();
             Intent intent = new Intent(context, MovieActivity.class);
             context.startActivity(intent);
